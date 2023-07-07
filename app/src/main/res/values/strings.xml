@@ -1,4 +1,21 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">E-Menu</string>
     <string name="e_menu">Jaya Bakery</string>
+    <string name="setting">Setting</string>
+    <string name="queue">QUEUE</string>
+    <string name="history">HISTORY</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_queue_fragment">Hello antrian fragment</string>
+    <string name="hello_history_fragment">Hello riwayat fragment</string>
+    <string name="title_login_page">Sign in</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_password">Enter your Password</string>
+    <string name="signin">Sign in</string>
+    <string name="error_enter_email">Enter your email first!</string>
+    <string name="invalid_email">Invalid Email Format</string>
+    <string name="error_passrword">Enter your email first</string>
+    <string name="password_leght">password must have 8 character</string>
+    <string name="welcome">Welcome</string>
+    <string name="SignOut">Sign Out</string>
+    <string name="wrong_login">invalid email or password</string>
 </resources>
