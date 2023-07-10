@@ -6,7 +6,9 @@
         android:id="@+id/setting"
         android:title="@string/setting"
         android:icon="@drawable/baseline_settings_24"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+
+        />
 
     <item
         android:id="@+id/signOut"

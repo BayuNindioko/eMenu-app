@@ -13,8 +13,6 @@ private val TAB_TITLES = arrayOf(
     R.string.queue,
     R.string.history
 )
-
-
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     FragmentPagerAdapter(fm) {
 

@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.example.myapplication.R
+import com.example.myapplication.SettingActivity
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.login.LoginActivity
 import com.google.android.material.tabs.TabLayout
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = binding.tabs
 
+
         val sharedPref = getSharedPreferences("login_pref", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPref.getBoolean("isLoggedIn", false)
 
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         } else {
+
             tabs.setupWithViewPager(viewPager)
         }
     }
@@ -51,7 +54,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.setting -> {
-
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
             }
             R.id.signOut -> {
                 clearSharedPreferences()

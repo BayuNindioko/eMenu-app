@@ -29,8 +29,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/e_menu"
+            android:textColor="@color/white"
             android:layout_gravity="center"
-            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -47,7 +47,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/Theme.Emenu.AppBarOverlay."
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager

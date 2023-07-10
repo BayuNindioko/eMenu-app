@@ -18,4 +18,19 @@
     <string name="welcome">Welcome</string>
     <string name="SignOut">Sign Out</string>
     <string name="wrong_login">invalid email or password</string>
+
+    <!-- Settings -->
+    <string name="pref_dark_title">Dark mode</string>
+    <string name="pref_key_dark" translatable="false">key_dark_mode</string>
+    <string name="pref_dark_follow_system" translatable="false">follow_system</string>
+    <string name="pref_dark_on" translatable="false">on</string>
+    <string name="pref_dark_off" translatable="false">off</string>
+    <string name="dark_mode_auto">Automatic</string>
+    <string name="dark_mode_on">Dark mode</string>
+    <string name="dark_mode_off">Light mode</string>
+
+    <string name="pref_key_notify">key_notification</string>
+    <string name="pref_notify_name">Notification</string>
+    <string name="pref_notify_summary">Reminder when countdown has finished.</string>
+    <string name="settings">Setting</string>
 </resources>
