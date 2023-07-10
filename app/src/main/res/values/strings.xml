@@ -13,11 +13,11 @@
     <string name="signin">Sign in</string>
     <string name="error_enter_email">Enter your email first!</string>
     <string name="invalid_email">Invalid Email Format</string>
-    <string name="error_passrword">Enter your email first</string>
+    <string name="error_passrword">Enter your password first</string>
     <string name="password_leght">password must have 8 character</string>
     <string name="welcome">Welcome</string>
     <string name="SignOut">Sign Out</string>
-    <string name="wrong_login">invalid email or password</string>
+    <string name="wrong_login">Invalid email or password!</string>
 
     <!-- Settings -->
     <string name="pref_dark_title">Dark mode</string>

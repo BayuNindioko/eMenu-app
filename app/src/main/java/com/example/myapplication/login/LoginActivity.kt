@@ -1,6 +1,6 @@
 package com.example.myapplication.login
 
-import android.content.Context
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,8 +10,9 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityLoginBinding
-import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.main.MainActivity
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -21,6 +22,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        FirebaseApp.initializeApp(this)
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
@@ -39,16 +42,14 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginResult.observe(this) { success ->
             if (success ) {
 
-                Toast.makeText(this, getString(R.string.welcome), Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                if (currentUser != null) {
+                    val intent = Intent(this, MainActivity::class.java)
+                    Toast.makeText(this,  getString(R.string.welcome), Toast.LENGTH_SHORT).show()
+                    startActivity(intent)
+                    finish()
+                }
 
-                val sharedPref = getSharedPreferences("login_pref", Context.MODE_PRIVATE)
-                val editor = sharedPref.edit()
-                editor.putBoolean("isLoggedIn", true)
-                editor.apply()
-
-                finish()
             } else {
                 Toast.makeText(this,  getString(R.string.wrong_login), Toast.LENGTH_SHORT).show()
             }

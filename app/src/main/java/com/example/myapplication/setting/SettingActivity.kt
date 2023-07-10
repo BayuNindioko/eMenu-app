@@ -1,4 +1,6 @@
-package com.example.myapplication
+@file:Suppress("DEPRECATION")
+
+package com.example.myapplication.setting
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +8,7 @@ import android.view.MenuItem
 import androidx.preference.ListPreference
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceFragmentCompat
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivitySettingBinding
 
 class SettingActivity : AppCompatActivity() {
