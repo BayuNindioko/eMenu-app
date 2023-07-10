@@ -14,13 +14,15 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
-
+        <item name="android:fontFamily">@font/nunito</item>
     </style>
 
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
 
     <!-- Actioin bar style -->
-    <style name="Theme.Emenu.AppBarOverlay." parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Emenu.AppBarOverlay." parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:fontFamily">@font/nunito_bold</item>
+    </style>
     <style name="OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
     </style>
@@ -29,5 +31,8 @@
         <item name="android:background">?attr/colorPrimary</item>
         <item name="titleTextColor">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+
     </style>
+
 </resources>

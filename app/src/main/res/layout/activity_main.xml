@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/e_menu"
+            android:fontFamily="@font/nunito_bold"
             android:textColor="@color/white"
             android:layout_gravity="center"
             android:textSize="18sp"
@@ -50,7 +51,8 @@
             tools:ignore="SpeakableTextPresentCheck"
             app:tabMaxWidth="0dp"
             app:tabGravity="fill"
-            app:tabMode="fixed" />
+            app:tabMode="fixed"
+            android:fontFamily="@font/nunito_bold"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager

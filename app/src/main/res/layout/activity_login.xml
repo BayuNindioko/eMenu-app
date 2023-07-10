@@ -31,7 +31,8 @@
         android:layout_marginEnd="32dp"
         android:gravity="center"
         android:text="@string/title_login_page"
-        android:textSize="24sp"
+        android:fontFamily="@font/nunito_bold"
+        android:textSize="38sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -41,7 +42,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailEditTextLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/enter_your_email"
+            android:fontFamily="@font/nunito"
             android:inputType="textEmailAddress"
             tools:ignore="SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
@@ -66,7 +67,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordEditTextLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -76,8 +76,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"
         app:passwordToggleEnabled="true"
-        app:startIconDrawable="@drawable/baseline_lock_24"
-        >
+        app:startIconDrawable="@drawable/baseline_lock_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordEditText"
@@ -85,6 +84,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/enter_your_password"
+            android:fontFamily="@font/nunito"
             android:inputType="textPassword"
             app:passwordToggleEnabled="true"
             tools:ignore="SpeakableTextPresentCheck,VisualLintTextFieldSize" />
@@ -99,6 +99,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/signin"
+        android:fontFamily="@font/nunito_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +112,7 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_percent="0.37"
+        app:layout_constraintGuide_percent="0.35"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -120,7 +121,7 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_percent="0.1"
+        app:layout_constraintGuide_percent="0.06"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
