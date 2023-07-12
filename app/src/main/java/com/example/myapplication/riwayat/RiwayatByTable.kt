@@ -1,4 +1,4 @@
-package com.example.myapplication.pesanan
+package com.example.myapplication.riwayat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,23 +6,25 @@ import android.view.MenuItem
 import android.widget.Button
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityPesananBinding
+import com.example.myapplication.databinding.ActivityRiwayatByTableBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class PesananActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityPesananBinding
+class RiwayatByTable : AppCompatActivity() {
+    private lateinit var binding: ActivityRiwayatByTableBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPesananBinding.inflate(layoutInflater)
+        binding = ActivityRiwayatByTableBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            setTitle(R.string.Pesanan)
+            setTitle(R.string.riwayat)
         }
 
-        binding.cardpesanan.setOnClickListener {
+        binding.cardhistory.setOnClickListener {
             val dialog = BottomSheetDialog(this)
 
             val view = layoutInflater.inflate(R.layout.note_dialogue, null)

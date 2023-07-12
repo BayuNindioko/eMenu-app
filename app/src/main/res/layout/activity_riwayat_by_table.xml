@@ -17,34 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/number_circle"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/outline_circle_24"
-        android:fontFamily="@font/nunito_semibold"
-        android:gravity="center"
-        android:textColor="@color/blue"
-        android:textSize="85sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:text="1" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardpesanan"
+        android:id="@+id/cardhistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginTop="16dp"
         android:background="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/yellow"
         app:cardCornerRadius="15dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/number_circle">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="380dp"
@@ -92,12 +77,12 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="24dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/baseline_access_time_24"
+                android:text="11 Aug 2023,12.00"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -109,19 +94,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/number_circle" />
-
-    <Button
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/print"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

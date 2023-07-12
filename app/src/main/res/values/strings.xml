@@ -34,4 +34,6 @@
     <string name="pref_notify_summary">Reminder when countdown has finished.</string>
     <string name="settings">Setting</string>
     <string name="print">Print</string>
+    <string name="Pesanan">Pesanan</string>
+    <string name="riwayat">Riwayat</string>
 </resources>
