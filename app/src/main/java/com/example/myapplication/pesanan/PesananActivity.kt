@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityPesananBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -26,14 +28,32 @@ class PesananActivity : AppCompatActivity() {
             val dialog = BottomSheetDialog(this)
 
             val view = layoutInflater.inflate(R.layout.note_dialogue, null)
-            val btnPrint = view.findViewById<Button>(R.id.idBtnPrint)
+            val btnSelesai = view.findViewById<Button>(R.id.idBtnSelesai)
+            val decreaseButton = view.findViewById<ImageView>(R.id.decrease_1)
+            val increaseButton = view.findViewById<ImageView>(R.id.increase_1)
+            val numberTextView = view.findViewById<TextView>(R.id.integer_number_1)
 
-            btnPrint.setOnClickListener {
-                dialog.dismiss()
-            }
 
             dialog.setCancelable(true)
             dialog.setContentView(view)
+
+            var count = 0
+
+            decreaseButton.setOnClickListener {
+                if (count > 0) {
+                    count--
+                    numberTextView.text = count.toString()
+                }
+            }
+
+            increaseButton.setOnClickListener {
+                count++
+                numberTextView.text = count.toString()
+            }
+
+            btnSelesai.setOnClickListener {
+                dialog.dismiss()
+            }
 
             dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
             dialog.show()

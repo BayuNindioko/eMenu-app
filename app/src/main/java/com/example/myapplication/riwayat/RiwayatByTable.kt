@@ -28,7 +28,7 @@ class RiwayatByTable : AppCompatActivity() {
             val dialog = BottomSheetDialog(this)
 
             val view = layoutInflater.inflate(R.layout.note_dialogue, null)
-            val btnPrint = view.findViewById<Button>(R.id.idBtnPrint)
+            val btnPrint = view.findViewById<Button>(R.id.idBtnSelesai)
 
             btnPrint.setOnClickListener {
                 dialog.dismiss()
