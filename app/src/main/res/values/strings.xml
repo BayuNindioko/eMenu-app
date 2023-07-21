@@ -1,23 +1,21 @@
 <resources>
     <string name="app_name">E-Menu</string>
-    <string name="e_menu">Jaya Bakery</string>
-    <string name="setting">Setting</string>
-    <string name="queue">QUEUE</string>
-    <string name="history">HISTORY</string>
+    <string name="e_menu">BARD</string>
+    <string name="setting">Pengaturan</string>
+    <string name="queue">Antrian</string>
+    <string name="history">Riwayat</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_queue_fragment">Hello antrian fragment</string>
-    <string name="hello_history_fragment">Hello riwayat fragment</string>
-    <string name="title_login_page">Sign in</string>
-    <string name="enter_your_email">Enter your email</string>
-    <string name="enter_your_password">Enter your Password</string>
-    <string name="signin">Sign in</string>
-    <string name="error_enter_email">Enter your email first!</string>
-    <string name="invalid_email">Invalid Email Format</string>
-    <string name="error_passrword">Enter your password first</string>
-    <string name="password_leght">password must have 8 character</string>
-    <string name="welcome">Welcome</string>
-    <string name="SignOut">Sign Out</string>
-    <string name="wrong_login">Invalid email or password!</string>
+    <string name="title_login_page">Masuk</string>
+    <string name="enter_your_email">Maukan email anda</string>
+    <string name="enter_your_password">Masukan password anda</string>
+    <string name="signin">Masuk</string>
+    <string name="error_enter_email">Masukan email anda dahulu!</string>
+    <string name="invalid_email">Format email tidak sesuai</string>
+    <string name="error_passrword">Masukan password anda dahulut</string>
+    <string name="password_leght">Password setidaknya 8 karakter</string>
+    <string name="welcome">Selamat Datang!</string>
+    <string name="SignOut">Keluar</string>
+    <string name="wrong_login">Email or password tidak sesuai!</string>
 
     <!-- Settings -->
     <string name="pref_dark_title">Dark mode</string>
@@ -32,8 +30,10 @@
     <string name="pref_key_notify">key_notification</string>
     <string name="pref_notify_name">Notification</string>
     <string name="pref_notify_summary">Reminder when countdown has finished.</string>
-    <string name="settings">Setting</string>
-    <string name="print">Print</string>
-    <string name="Pesanan">Order</string>
-    <string name="riwayat">History</string>
+
+
+    <string name="settings">Pengaturan</string>
+    <string name="print">Cetaknt</string>
+    <string name="Pesanan">Pesanan</string>
+    <string name="riwayat">Riwayat</string>
 </resources>
