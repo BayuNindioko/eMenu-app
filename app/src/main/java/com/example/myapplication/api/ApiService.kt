@@ -1,18 +1,18 @@
 package com.example.myapplication.api
 
 import com.example.myapplication.data.OrderResponse
-import com.example.myapplication.data.TableResponse
+import com.example.myapplication.data.TableResponseItem
 import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
 
-
     @GET("table")
     fun getTable(
-    ): Call<TableResponse>
+    ): Call<List<TableResponseItem>>
 
-    @GET("orderByTable")
+    @GET("orderByTable/{number}")
     fun getOrderByTable(
-    ): Call<OrderResponse>
+        @Path("number") number: String
+    ): Call<List<OrderResponse>>
 }

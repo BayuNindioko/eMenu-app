@@ -4,12 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class OrderResponse(
 
-	@field:SerializedName("OrderResponse")
-	val orderResponse: List<OrderResponseItem?>? = null
-)
-
-data class OrderResponseItem(
-
 	@field:SerializedName("number")
 	val number: String? = null,
 

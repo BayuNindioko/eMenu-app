@@ -8,15 +8,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.data.OrderResponse
-import com.example.myapplication.data.OrderResponseItem
 import com.example.myapplication.databinding.ActivityPesananBinding
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,75 +30,77 @@ class PesananActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.Pesanan)
         }
-
+        val number = intent.getStringExtra("NUMBER_KEY")
+        binding.numberCircle.text = number
 
         pesananAdapter = PesananAdapter(emptyList())
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = pesananAdapter
 
-        // Load data from API and display it using RecyclerView
+
         loadPesananData()
 
-        binding.cardpesanan.setOnClickListener {
-            val dialog = BottomSheetDialog(this)
-
-            val view = layoutInflater.inflate(R.layout.note_dialogue, null)
-            val btnSelesai = view.findViewById<Button>(R.id.idBtnSelesai)
-            val decreaseButton = view.findViewById<ImageView>(R.id.decrease_1)
-            val increaseButton = view.findViewById<ImageView>(R.id.increase_1)
-            val numberTextView = view.findViewById<TextView>(R.id.integer_number_1)
-
-
-            dialog.setCancelable(true)
-            dialog.setContentView(view)
-
-            var count = 0
-
-            decreaseButton.setOnClickListener {
-                if (count > 0) {
-                    count--
-                    numberTextView.text = count.toString()
-                }
-            }
-
-            increaseButton.setOnClickListener {
-                count++
-                numberTextView.text = count.toString()
-            }
-
-            btnSelesai.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            dialog.show()
-        }
+//        binding.cardpesanan.setOnClickListener {
+//            val dialog = BottomSheetDialog(this)
+//
+//            val view = layoutInflater.inflate(R.layout.note_dialogue, null)
+//            val btnSelesai = view.findViewById<Button>(R.id.idBtnSelesai)
+//            val decreaseButton = view.findViewById<ImageView>(R.id.decrease_1)
+//            val increaseButton = view.findViewById<ImageView>(R.id.increase_1)
+//            val numberTextView = view.findViewById<TextView>(R.id.integer_number_1)
+//
+//
+//            dialog.setCancelable(true)
+//            dialog.setContentView(view)
+//
+//            var count = 0
+//
+//            decreaseButton.setOnClickListener {
+//                if (count > 0) {
+//                    count--
+//                    numberTextView.text = count.toString()
+//                }
+//            }
+//
+//            increaseButton.setOnClickListener {
+//                count++
+//                numberTextView.text = count.toString()
+//            }
+//
+//            btnSelesai.setOnClickListener {
+//                dialog.dismiss()
+//            }
+//
+//            dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+//            dialog.show()
+//        }
     }
 
     private fun loadPesananData() {
+        val number = intent.getStringExtra("NUMBER_KEY")
         val apiService = ApiConfig().getApiService()
-        apiService.getOrderByTable().enqueue(object : Callback<OrderResponse> {
-            override fun onResponse(
-                call: Call<OrderResponse>,
-                response: Response<OrderResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val orderList = response.body()?.orderResponse
-                    orderList?.let {
-                        pesananAdapter = PesananAdapter(it)
-                        binding.recyclerView.adapter = pesananAdapter
+        number?.let {
+            apiService.getOrderByTable(it).enqueue(object : Callback<List<OrderResponse>> {
+                override fun onResponse(
+                    call: Call<List<OrderResponse>>,
+                    response: Response<List<OrderResponse>>
+                ) {
+                    if (response.isSuccessful) {
+                        val orderList = response.body()
+                        orderList?.let { it ->
+                            pesananAdapter = PesananAdapter(it)
+                            binding.recyclerView.adapter = pesananAdapter
+                        }
+                    } else {
+                        Toast.makeText(this@PesananActivity, "Failed to get data", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(this@PesananActivity, "Failed to get data", Toast.LENGTH_SHORT).show()
-
                 }
-            }
 
-            override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
-                Toast.makeText(this@PesananActivity, "Failed to get data", Toast.LENGTH_SHORT).show()
-
-            }
-        })
+                override fun onFailure(call: Call<List<OrderResponse>>, t: Throwable) {
+                    Toast.makeText(this@PesananActivity, "Failed to get data", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pesanan.PesananActivity">
+    tools:context=".pesanan.PesananActivity"
+    android:paddingBottom="32dp">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -32,89 +33,21 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         android:text="1" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardpesanan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="32dp"
-        android:background="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/yellow"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/number_circle">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="380dp"
-            android:layout_height="91dp">
-
-            <ImageView
-                android:id="@+id/image_menu"
-                android:layout_width="107dp"
-                android:layout_height="69dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/e_menu"
-                android:src="@drawable/burger_menu"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/image_menu"
-                app:layout_constraintStart_toEndOf="@id/image_menu"
-                app:layout_constraintTop_toTopOf="@id/image_menu"
-                app:layout_constraintVertical_bias="0.5">
-
-                <TextView
-                    android:id="@+id/text_menu_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_bold"
-                    android:text="Nama Menu"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/text_menu_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito"
-                    android:paddingTop="4dp"
-                    android:text="Jumlah : 2" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/baseline_access_time_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/number_circle" />
+        app:layout_constraintTop_toBottomOf="@+id/number_circle"
+        app:layout_constraintVertical_bias="0.073" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

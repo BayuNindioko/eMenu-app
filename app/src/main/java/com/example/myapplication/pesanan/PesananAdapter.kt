@@ -2,10 +2,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.data.OrderResponseItem
+import com.example.myapplication.data.OrderResponse
 import com.example.myapplication.databinding.ItemPesananBinding
 
-class PesananAdapter(private val orderList: List<OrderResponseItem?>) :
+class PesananAdapter(private val orderList: List<OrderResponse?>) :
     RecyclerView.Adapter<PesananAdapter.OrderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -24,7 +24,7 @@ class PesananAdapter(private val orderList: List<OrderResponseItem?>) :
 
     inner class OrderViewHolder(private val binding: ItemPesananBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(order: OrderResponseItem?) {
+        fun bind(order: OrderResponse?) {
             binding.apply {
                 order?.let {
                     binding.textMenuName.text = it.name

@@ -33,7 +33,7 @@
 
 
     <string name="settings">Pengaturan</string>
-    <string name="print">Cetaknt</string>
+    <string name="print">Cetak</string>
     <string name="Pesanan">Pesanan</string>
     <string name="riwayat">Riwayat</string>
 </resources>
