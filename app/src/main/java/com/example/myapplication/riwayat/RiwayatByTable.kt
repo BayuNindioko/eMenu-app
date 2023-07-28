@@ -24,22 +24,8 @@ class RiwayatByTable : AppCompatActivity() {
             setTitle(R.string.riwayat)
         }
 
-        binding.cardhistory.setOnClickListener {
-            val dialog = BottomSheetDialog(this)
+        val number = intent.getStringExtra("NUMBER_KEY_HISTORY")
 
-            val view = layoutInflater.inflate(R.layout.note_dialogue, null)
-            val btnPrint = view.findViewById<Button>(R.id.idBtnSelesai)
-
-            btnPrint.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            dialog.setCancelable(true)
-            dialog.setContentView(view)
-
-            dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            dialog.show()
-        }
     }
 
 

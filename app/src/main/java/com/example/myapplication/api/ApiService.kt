@@ -18,10 +18,10 @@ interface ApiService {
     ): Call<List<OrderResponse>>
 
     @FormUrlEncoded
-    @PATCH("updateQueue/{id}")
+    @PATCH("updateQueue/{id}/")
     fun updateData(
         @Path("id") id: Int,
-        @Field("quantityDelivered") quantityDelivered:Int
+        @Field("quantity_delivered") QuantityDelivered:Int
     ) : Call<UpdateResponse>
 
     @GET("allTable")

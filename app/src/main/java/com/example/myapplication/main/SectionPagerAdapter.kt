@@ -2,6 +2,7 @@
 
 package com.example.myapplication.main
 
+import ReservassiFragment
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -12,6 +13,7 @@ import com.example.myapplication.antrian.QueueFragment
 
 
 private val TAB_TITLES = arrayOf(
+    R.string.reserv,
     R.string.queue,
     R.string.history
 )
@@ -20,8 +22,9 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> QueueFragment()
-            1 -> HistoryFragment()
+            0 -> ReservassiFragment()
+            1 -> QueueFragment()
+            2 -> HistoryFragment()
             else -> throw IllegalArgumentException("Invalid position: $position")
         }
     }
@@ -31,6 +34,6 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     }
 
     override fun getCount(): Int {
-        return 2
+        return 3
     }
 }

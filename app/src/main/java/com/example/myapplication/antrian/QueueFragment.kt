@@ -19,6 +19,7 @@ import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.data.TableResponseItem
 import com.example.myapplication.databinding.FragmentAntrianBinding
 import com.example.myapplication.pesanan.PesananActivity
+import com.example.myapplication.riwayat.TableHistoryAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,7 +46,8 @@ class QueueFragment : Fragment() {
                 if (response.isSuccessful) {
                     val tableList = response.body()
                     tableList?.let {
-                        tableAdapter = TableAdapter(it)
+                        val filteredTableList = it.filter { table -> table.status == "Berisi" }
+                        tableAdapter = TableAdapter(filteredTableList)
                         binding.rvTable.adapter = tableAdapter
                     }
                 } else {
@@ -60,8 +62,6 @@ class QueueFragment : Fragment() {
                 Toast.makeText(requireContext(), "Failed to makan", Toast.LENGTH_SHORT).show()
             }
         })
-
-
 
         return view
     }

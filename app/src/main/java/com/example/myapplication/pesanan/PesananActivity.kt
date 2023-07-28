@@ -35,7 +35,7 @@ class PesananActivity : AppCompatActivity() {
             setTitle(R.string.Pesanan)
         }
         val number = intent.getStringExtra("NUMBER_KEY")
-        binding.numberCircle.text = number
+        binding.numberCircle.text = "Meja No : $number"
 
         pesananAdapter = PesananAdapter(emptyList()) { order ->
             showBottomSheetDialog(order)
