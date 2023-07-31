@@ -105,18 +105,18 @@ class PesananActivity : AppCompatActivity() {
 
         var count = order.quantityOrder
         val maxCount = order.quantityOrder
-        numberTextView.text = "${count.toString()}/${order.quantityOrder}"
+        numberTextView.text = count.toString()
         decreaseButton.setOnClickListener {
             if (count!! > 0) {
                 count = count!! - 1
-                numberTextView.text = "${count.toString()}/${order.quantityOrder}"
+                numberTextView.text = count.toString()
             }
         }
 
         increaseButton.setOnClickListener {
             if (count!! < maxCount!!) {
                 count = count!! + 1
-                numberTextView.text = "${count.toString()}/${order.quantityOrder}"
+                numberTextView.text = count.toString()
             }
         }
 
