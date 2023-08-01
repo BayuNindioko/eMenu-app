@@ -16,5 +16,16 @@ data class TableResponseItem(
 	val createdAt: Any? = null,
 
 	@SerializedName("updated_at")
-	val updatedAt: Any? = null
+	val updatedAt: Any? = null,
+	val reservation: List<Reservation>
 )
+data class Reservation(
+	val id: Int,
+	val table_id: Int,
+	val name: String,
+	val pin: String,
+	val status: String,
+	val created_at: String?,
+	val updated_at: String?
+)
+

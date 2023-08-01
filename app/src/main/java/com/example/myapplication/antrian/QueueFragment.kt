@@ -1,33 +1,34 @@
 package com.example.myapplication.antrian
 
-import PesananAdapter
-import android.content.Intent
-import android.media.tv.TableResponse
+
+
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
-import com.example.myapplication.api.ApiConfig
 
-import com.example.myapplication.data.TableResponseItem
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+
 import com.example.myapplication.databinding.FragmentAntrianBinding
-import com.example.myapplication.pesanan.PesananActivity
-import com.example.myapplication.riwayat.TableHistoryAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 class QueueFragment : Fragment() {
     private var _binding: FragmentAntrianBinding? = null
     private lateinit var tableAdapter: TableAdapter
+    private lateinit var queueViewModel: QueueViewModel
     private val binding get() = _binding!!
+
+    private val fetchHandler = Handler()
+    private val fetchRunnable = object : Runnable {
+        override fun run() {
+            queueViewModel.fetchTableData()
+            fetchHandler.postDelayed(this, 20000)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,29 +40,13 @@ class QueueFragment : Fragment() {
         tableAdapter = TableAdapter(emptyList())
         binding.rvTable.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        val apiService = ApiConfig().getApiService()
-
-        apiService.getTable().enqueue(object : Callback<List<TableResponseItem>> {
-            override fun onResponse(call: Call<List<TableResponseItem>>, response: Response<List<TableResponseItem>>) {
-                if (response.isSuccessful) {
-                    val tableList = response.body()
-                    tableList?.let {
-                        val filteredTableList = it.filter { table -> table.status == "Berisi" }
-                        tableAdapter = TableAdapter(filteredTableList)
-                        binding.rvTable.adapter = tableAdapter
-                    }
-                } else {
-                    Log.d("aldo", "${response.code()}")
-                    Toast.makeText(requireContext(), "Failed to get data", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<List<TableResponseItem>>, t: Throwable) {
-                Log.e("aldo", "Error: ${t.message}")
-                t.printStackTrace()
-                Toast.makeText(requireContext(), "Failed to makan", Toast.LENGTH_SHORT).show()
-            }
-        })
+        queueViewModel = ViewModelProvider(this).get(QueueViewModel::class.java)
+        queueViewModel.getTableData().observe(viewLifecycleOwner) { tableList ->
+            tableAdapter = TableAdapter(tableList)
+            binding.rvTable.adapter = tableAdapter
+        }
+        queueViewModel.fetchTableData()
+        fetchHandler.postDelayed(fetchRunnable, 20000)
 
         return view
     }

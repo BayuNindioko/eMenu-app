@@ -8,24 +8,27 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("table")
-    fun getTable(
+    @GET("tables")
+    fun getTableReservation(
     ): Call<List<TableResponseItem>>
-
-    @GET("orderByTable/{number}")
+    @GET("/reservations/{id}/items")
     fun getOrderByTable(
-        @Path("number") number: String
+        @Path("table_id") number: String
     ): Call<List<OrderResponse>>
 
     @FormUrlEncoded
-    @PATCH("updateQueue/{id}/")
+    @PATCH("order_items/{id}/")
     fun updateData(
         @Path("id") id: Int,
         @Field("quantity_delivered") QuantityDelivered:Int
     ) : Call<UpdateResponse>
 
-    @GET("allTable")
-    fun getAllTable(
+    @GET("tables")
+    fun getTable(
     ): Call<List<TableResponseItem>>
+    @GET("tables/{table_id}")
+    fun getHistoryByTable(
+        @Path("table_id") number: String
+    ): Call<List<OrderResponse>>
 
 }

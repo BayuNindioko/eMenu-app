@@ -9,9 +9,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.api.ApiConfig
+import com.example.myapplication.data.Items
 import com.example.myapplication.data.OrderResponse
 import com.example.myapplication.data.UpdateResponse
 import com.example.myapplication.databinding.ActivityPesananBinding
@@ -24,6 +26,8 @@ import retrofit2.Response
 class PesananActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPesananBinding
     private lateinit var pesananAdapter: PesananAdapter
+    private lateinit var pesananViewModel: PesananViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesananBinding.inflate(layoutInflater)
@@ -37,52 +41,36 @@ class PesananActivity : AppCompatActivity() {
         val number = intent.getStringExtra("NUMBER_KEY")
         binding.numberCircle.text = "Meja No : $number"
 
-        pesananAdapter = PesananAdapter(emptyList()) { order ->
-            showBottomSheetDialog(order)
+        pesananAdapter = PesananAdapter(emptyList()) {
+            showBottomSheetDialog(it)
         }
+
+        pesananViewModel = ViewModelProvider(this).get(PesananViewModel::class.java)
+
+        // Observe LiveData and update adapter when data changes
+        pesananViewModel.itemsLiveData.observe(this) { items ->
+            items?.let {
+                pesananAdapter.updateItems(it)
+            }
+        }
+
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = pesananAdapter
 
-
-        loadPesananData()
-
-    }
-
-    private fun loadPesananData() {
-        val number = intent.getStringExtra("NUMBER_KEY")
-        val apiService = ApiConfig().getApiService()
         number?.let {
-            apiService.getOrderByTable(it).enqueue(object : Callback<List<OrderResponse>> {
-                override fun onResponse(
-                    call: Call<List<OrderResponse>>,
-                    response: Response<List<OrderResponse>>
-                ) {
-                    if (response.isSuccessful) {
-                        val orderList = response.body()
-                        orderList?.let { it ->
-                            pesananAdapter = PesananAdapter(it) { order ->
-                                showBottomSheetDialog(order)
-                            }
-                            binding.recyclerView.adapter = pesananAdapter
-                        }
-                    } else {
-                        Toast.makeText(this@PesananActivity, "Failed to get data", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<List<OrderResponse>>, t: Throwable) {
-                    Toast.makeText(this@PesananActivity, "Failed to get data", Toast.LENGTH_SHORT).show()
-                }
-            })
+            pesananViewModel.loadPesananData(it)
         }
+
     }
+
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
 
-    private fun showBottomSheetDialog(order: OrderResponse) {
+    private fun showBottomSheetDialog(order: Items) {
 
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.note_dialogue, null)
@@ -99,12 +87,12 @@ class PesananActivity : AppCompatActivity() {
         dialog.setContentView(view)
 
         textViewMenuName.text = order.name
-        textViewMenuQty.text = "Jumlah pesanan: ${order.quantityOrder}"
-        textViewMenuQtyDeliv.text = "Jumlah pesanan diantar: ${order.quantityDelivered}/${order.quantityOrder}"
+        textViewMenuQty.text = "Jumlah pesanan: ${order.quantity_order}"
+        textViewMenuQtyDeliv.text = "Jumlah pesanan diantar: ${order.quantity_delivered}/${order.quantity_order}"
         catatan.text = order.notes
 
-        var count = order.quantityOrder
-        val maxCount = order.quantityOrder
+        var count = order.quantity_order
+        val maxCount = order.quantity_order
         numberTextView.text = count.toString()
         decreaseButton.setOnClickListener {
             if (count!! > 0) {
@@ -125,11 +113,13 @@ class PesananActivity : AppCompatActivity() {
             Log.d("aldi ","${order.id}")
             count?.let { it1 -> updateData(order.id!!, it1) }
             dialog.dismiss()
-
+            recreate()
         }
 
         dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         dialog.show()
+
+
     }
 
     private fun updateData(id: Int, quantityDeliv: Int) {

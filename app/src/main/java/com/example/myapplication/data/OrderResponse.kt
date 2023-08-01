@@ -1,39 +1,38 @@
 package com.example.myapplication.data
 
-import com.google.gson.annotations.SerializedName
+
 
 data class OrderResponse(
-
-	@field:SerializedName("number")
-	val number: String? = null,
-
-	@field:SerializedName("notes")
-	val notes: String? = null,
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
-
-	@field:SerializedName("item_id")
-	val itemId: Int? = null,
-
-	@field:SerializedName("price")
-	val price: Int? = null,
-
-	@field:SerializedName("quantity_order")
-	val quantityOrder: Int? = null,
-
-	@field:SerializedName("quantity_delivered")
-	val quantityDelivered: Int? = null,
-
-	@field:SerializedName("name")
-	val name: String? = null,
-
-	@field:SerializedName("created_at")
-	val createdAt: Any? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null,
-
-	@field:SerializedName("order_id")
-	val orderId: Int? = null
+	val id: Int,
+	val table_id: Int,
+	val name: String,
+	val pin: String,
+	val status: String,
+	val created_at: String?,
+	val updated_at: String?,
+	val items: List<Items>,
+	val table: Table
 )
+data class Items(
+	val id: Int,
+	val order_id: Int,
+	val item_id: Int,
+	val quantity_order: Int,
+	val quantity_delivered: Int,
+	val price: Int,
+	val name: String,
+	val notes: String,
+	val created_at: String?,
+	val updated_at: String?,
+	val laravel_through_key: Int
+)
+
+data class Table(
+	val id: Int,
+	val number: String,
+	val status: String,
+	val created_at: String?,
+	val updated_at: String?
+)
+
+

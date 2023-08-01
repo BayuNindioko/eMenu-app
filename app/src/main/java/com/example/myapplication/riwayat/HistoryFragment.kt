@@ -1,6 +1,5 @@
 package com.example.myapplication.riwayat
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.myapplication.antrian.TableAdapter
 import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.data.TableResponseItem
 import com.example.myapplication.databinding.FragmentRiwayatBinding
@@ -37,18 +35,17 @@ class HistoryFragment : Fragment() {
 
         val apiService = ApiConfig().getApiService()
 
-        apiService.getAllTable().enqueue(object : Callback<List<TableResponseItem>> {
+        apiService.getTable().enqueue(object : Callback<List<TableResponseItem>> {
             override fun onResponse(call: Call<List<TableResponseItem>>, response: Response<List<TableResponseItem>>) {
                 if (response.isSuccessful) {
                     val tableList = response.body()
                     tableList?.let {
-                        val filteredTableList = it.filter { table -> table.status == "Berisi" }
-                        tableAdapter = TableHistoryAdapter(filteredTableList)
+                        tableAdapter = TableHistoryAdapter(tableList)
                         binding.rvHistory.adapter = tableAdapter
                     }
                 } else {
                     Log.d("aldo", "${response.code()}")
-                    Toast.makeText(requireContext(), "Failed to get data", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Selamat Datang", Toast.LENGTH_SHORT).show()
                 }
             }
 

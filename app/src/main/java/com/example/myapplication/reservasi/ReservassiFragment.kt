@@ -1,24 +1,16 @@
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.myapplication.api.ApiConfig
-import com.example.myapplication.data.TableResponseItem
+import com.example.myapplication.antrian.TableAdapter
 import com.example.myapplication.databinding.FragmentReservassiBinding
-import com.example.myapplication.databinding.FragmentRiwayatBinding
-import com.example.myapplication.riwayat.TableHistoryAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 class ReservassiFragment : Fragment() {
 
     private var _binding: FragmentReservassiBinding? = null
-    private lateinit var tableAdapter: TableHistoryAdapter
+    private lateinit var tableAdapter: TableAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -29,7 +21,7 @@ class ReservassiFragment : Fragment() {
         _binding = FragmentReservassiBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        tableAdapter = TableHistoryAdapter(emptyList())
+        tableAdapter = TableAdapter(emptyList())
 //        binding.rvHistory.layoutManager = GridLayoutManager(requireContext(), 2)
 //
 //

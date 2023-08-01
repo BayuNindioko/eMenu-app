@@ -1,5 +1,6 @@
 package com.example.myapplication.antrian
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,7 @@ import com.example.myapplication.R
 import com.example.myapplication.data.TableResponseItem
 import com.example.myapplication.pesanan.PesananActivity
 
-class TableAdapter(private val tableList: List<TableResponseItem?>) :
+class TableAdapter(private var tableList: List<TableResponseItem?>) :
     RecyclerView.Adapter<TableAdapter.TableViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TableViewHolder {
@@ -36,10 +37,10 @@ class TableAdapter(private val tableList: List<TableResponseItem?>) :
                 if (position != RecyclerView.NO_POSITION) {
                     val table = tableList[position]
                     table?.let {
-                        val number = it.number
+                        val id = it.id
 
                         val intent = Intent(itemView.context, PesananActivity::class.java)
-                        intent.putExtra("NUMBER_KEY", number)
+                        intent.putExtra("NUMBER_KEY", id.toString())
                         itemView.context.startActivity(intent)
                     }
                 }

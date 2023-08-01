@@ -10,7 +10,7 @@ import com.example.myapplication.R
 import com.example.myapplication.data.TableResponseItem
 import com.example.myapplication.pesanan.PesananActivity
 
-class TableHistoryAdapter(private val tableList: List<TableResponseItem?>) :
+class TableHistoryAdapter(private var tableList: List<TableResponseItem?>) :
     RecyclerView.Adapter<TableHistoryAdapter.TableViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TableViewHolder {
@@ -28,6 +28,11 @@ class TableHistoryAdapter(private val tableList: List<TableResponseItem?>) :
         return tableList.size
     }
 
+    fun updateTableList(newTableList: List<TableResponseItem>) {
+        tableList = newTableList
+        notifyDataSetChanged()
+    }
+
     inner class TableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val numberTextView: TextView = itemView.findViewById(R.id.item_tv_minutes)
         init {
@@ -36,10 +41,10 @@ class TableHistoryAdapter(private val tableList: List<TableResponseItem?>) :
                 if (position != RecyclerView.NO_POSITION) {
                     val table = tableList[position]
                     table?.let {
-                        val number = it.number
+                        val id = it.id
 
                         val intent = Intent(itemView.context, RiwayatByTable::class.java)
-                        intent.putExtra("NUMBER_KEY_HISTORY", number)
+                        intent.putExtra("NUMBER_KEY", id.toString())
                         itemView.context.startActivity(intent)
                     }
                 }
