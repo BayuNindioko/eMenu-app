@@ -17,24 +17,22 @@ class PesananViewModel : ViewModel() {
 
     fun loadPesananData(number: String) {
         val apiService = ApiConfig().getApiService()
-        apiService.getOrderByTable(number).enqueue(object : Callback<List<OrderResponse>> {
+        apiService.getOrderByTable(number).enqueue(object : Callback<OrderResponse> {
             override fun onResponse(
-                call: Call<List<OrderResponse>>,
-                response: Response<List<OrderResponse>>
+                call: Call<OrderResponse>,
+                response: Response<OrderResponse>
             ) {
                 if (response.isSuccessful) {
-                    val orderList = response.body()
-                    orderList?.let { orders ->
-                        if (orders.isNotEmpty()) {
-                            val itemsList = orders[0].items
-                            _itemsLiveData.postValue(itemsList)
-                        }
+                    val orderResponse = response.body()
+                    orderResponse?.let { order ->
+                        val itemsList = order.items
+                        _itemsLiveData.postValue(itemsList)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<List<OrderResponse>>, t: Throwable) {
-                Log.d("bayu","failed")
+            override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
+                Log.e("bayu", "Error: ${t.message}", t)
             }
         })
     }

@@ -21,7 +21,7 @@ data class Items(
 	val quantity_delivered: Int,
 	val price: Int,
 	val name: String,
-	val notes: String,
+	val notes: String?,
 	val created_at: String?,
 	val updated_at: String?,
 	val laravel_through_key: Int

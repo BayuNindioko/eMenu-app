@@ -39,7 +39,8 @@ class PesananActivity : AppCompatActivity() {
             setTitle(R.string.Pesanan)
         }
         val number = intent.getStringExtra("NUMBER_KEY")
-        binding.numberCircle.text = "Meja No : $number"
+        val number_table = intent.getStringExtra("ID_TABLE")
+        binding.numberCircle.text = "Meja No : $number_table"
 
         pesananAdapter = PesananAdapter(emptyList()) {
             showBottomSheetDialog(it)

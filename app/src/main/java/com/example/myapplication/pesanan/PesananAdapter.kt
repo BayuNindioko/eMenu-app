@@ -42,6 +42,7 @@ class PesananAdapter(
             binding.apply {
                 binding.textMenuName.text = item.name
                 binding.textMenuAmount.text = "Jumlah: ${item.quantity_order}"
+                binding.textStatus.text = "Orderan ke - ${item.order_id}"
 
                 if (item.quantity_order <= item.quantity_delivered) {
                     // If they are equal, set the status order image to the logo
