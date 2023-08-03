@@ -42,13 +42,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginResult.observe(this) { success ->
             if (success ) {
 
-                val currentUser = FirebaseAuth.getInstance().currentUser
-                if (currentUser != null) {
-                    val intent = Intent(this, MainActivity::class.java)
-                    Toast.makeText(this,  getString(R.string.welcome), Toast.LENGTH_SHORT).show()
-                    startActivity(intent)
-                    finish()
-                }
+                //todo: berikan aksi pindah ke main activity jika sudah login
 
             } else {
                 Toast.makeText(this,  getString(R.string.wrong_login), Toast.LENGTH_SHORT).show()

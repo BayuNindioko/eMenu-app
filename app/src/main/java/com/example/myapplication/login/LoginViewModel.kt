@@ -16,16 +16,7 @@ class LoginViewModel : ViewModel() {
     fun signInWithEmailAndPassword(email: String, password: String) {
         _showProgressBar.value = true
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                _showProgressBar.value = false
-                if (task.isSuccessful) {
-                    _loginResult.value = true
-                } else {
-                    _loginResult.value = false
-                    Log.e("LoginViewModel", "Login failed", task.exception)
-                }
-            }
+
 
     }
 

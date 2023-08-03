@@ -2,6 +2,8 @@
 
 package com.example.myapplication.setting
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -13,7 +15,6 @@ import com.example.myapplication.databinding.ActivitySettingBinding
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingBinding.inflate(layoutInflater)
@@ -60,8 +61,11 @@ class SettingActivity : AppCompatActivity() {
                     else -> AppCompatDelegate.MODE_NIGHT_NO
                 }
                 updateTheme(themeMode)
+
+
                 true
             }
+
         }
 
         private fun updateTheme(mode: Int): Boolean {

@@ -1,5 +1,6 @@
 package com.example.myapplication.api
 
+import com.example.myapplication.data.LoginResponse
 import com.example.myapplication.data.OrderResponse
 import com.example.myapplication.data.TableReservationResponse
 import com.example.myapplication.data.TableResponseItem
@@ -32,5 +33,12 @@ interface ApiService {
     fun getHistoryByTable(
         @Path("table_id") number: String
     ): Call<List<OrderResponse>>
+
+    @POST("login")
+    @FormUrlEncoded
+    fun login(
+        @Field("email") email: String,
+        @Field("password") password: String
+    ): Call<LoginResponse>
 
 }
