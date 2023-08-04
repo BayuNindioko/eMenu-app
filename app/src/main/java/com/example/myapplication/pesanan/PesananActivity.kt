@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -50,8 +51,13 @@ class PesananActivity : AppCompatActivity() {
 
         // Observe LiveData and update adapter when data changes
         pesananViewModel.itemsLiveData.observe(this) { items ->
-            items?.let {
-                pesananAdapter.updateItems(it)
+            if (items.isNullOrEmpty()) {
+                binding.recyclerView.visibility = View.GONE
+                binding.tvEmptyMessage.visibility = View.VISIBLE
+            } else {
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.tvEmptyMessage.visibility = View.GONE
+                pesananAdapter.updateItems(items)
             }
         }
 

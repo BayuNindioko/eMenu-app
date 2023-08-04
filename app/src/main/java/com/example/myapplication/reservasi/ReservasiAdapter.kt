@@ -9,8 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.TableResponseItem
-import com.example.myapplication.pesanan.PesananActivity
-import com.example.myapplication.riwayat.RiwayatByTable
+import com.example.myapplication.detailReservasi.DetailReservasiActivity
 
 class ReservasiAdapter(private var tableList: List<TableResponseItem?>) :
     RecyclerView.Adapter<ReservasiAdapter.TableViewHolder>() {
@@ -45,9 +44,11 @@ class ReservasiAdapter(private var tableList: List<TableResponseItem?>) :
                     val table = tableList[position]
                     table?.let {
                         val id = it.id
+                        val number = it.number
 
-                        val intent = Intent(itemView.context, RiwayatByTable::class.java)
-                        intent.putExtra("NUMBER_KEY", id.toString())
+                        val intent = Intent(itemView.context, DetailReservasiActivity::class.java)
+                        intent.putExtra("RES_ID", id.toString())
+                        intent.putExtra("NUMBER_TABLE", number.toString())
                         itemView.context.startActivity(intent)
                     }
                 }

@@ -42,8 +42,16 @@ class QueueFragment : Fragment() {
 
         queueViewModel = ViewModelProvider(this).get(QueueViewModel::class.java)
         queueViewModel.getTableData().observe(viewLifecycleOwner) { tableList ->
-            tableAdapter = TableAdapter(tableList)
-            binding.rvTable.adapter = tableAdapter
+            if (tableList.isNotEmpty()) {
+                binding.rvTable.visibility = View.VISIBLE
+                binding.emptyView.visibility = View.GONE
+
+                tableAdapter = TableAdapter(tableList)
+                binding.rvTable.adapter = tableAdapter
+            } else {
+                binding.rvTable.visibility = View.GONE
+                binding.emptyView.visibility = View.VISIBLE
+            }
         }
         queueViewModel.fetchTableData()
         fetchHandler.postDelayed(fetchRunnable, 20000)

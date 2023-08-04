@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".reservasi.DetailReservasiActivity">
+    tools:context=".detailReservasi.DetailReservasiActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -38,7 +38,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/nunito"
-        android:text="Status : Proses"
+        android:text="Status : -"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/no_meja" />
@@ -51,7 +51,7 @@
         android:layout_marginTop="8dp"
 
         android:fontFamily="@font/nunito"
-        android:text="Check in : Pukul 10.00pm"
+        android:text="Waktu : -"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         android:id="@+id/pincode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="120dp"
         android:fontFamily="@font/nunito"
         android:gravity="center"
         android:text="Kode PIN"
@@ -76,11 +76,12 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_bold"
         android:gravity="center"
-        android:text="2345"
+        android:text="-"
         android:textSize="64sp"
         app:layout_constraintTop_toBottomOf="@+id/pincode" />
 
     <Button
+        android:id="@+id/checkin"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginStart="64dp"
@@ -88,12 +89,12 @@
         android:layout_marginBottom="16dp"
         android:text="Check In"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/checkout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginStart="64dp"

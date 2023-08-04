@@ -8,9 +8,4 @@
         app:title="@string/pref_dark_title"
         app:useSimpleSummaryProvider="true" />
 
-    <SwitchPreference
-        app:key="@string/pref_key_notify"
-        app:summary="@string/pref_notify_summary"
-        app:title="@string/pref_notify_name" />
-
 </PreferenceScreen>

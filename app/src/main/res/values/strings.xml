@@ -2,17 +2,17 @@
     <string name="app_name">BARD Order</string>
     <string name="e_menu">BARD</string>
     <string name="setting">Pengaturan</string>
-    <string name="queue">Antrian</string>
+    <string name="queue">Pesanan</string>
     <string name="history">Riwayat</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_login_page">Masuk</string>
-    <string name="enter_your_email">Maukan email anda</string>
+    <string name="enter_your_email">Masukan email anda</string>
     <string name="enter_your_password">Masukan password anda</string>
     <string name="signin">Masuk</string>
     <string name="error_enter_email">Masukan email anda dahulu!</string>
     <string name="invalid_email">Format email tidak sesuai</string>
     <string name="error_passrword">Masukan password anda dahulut</string>
-    <string name="password_leght">Password setidaknya 8 karakter</string>
+    <string name="password_leght">Password setidaknya 5 karakter</string>
     <string name="welcome">Selamat Datang!</string>
     <string name="SignOut">Keluar</string>
     <string name="wrong_login">Email or password tidak sesuai!</string>

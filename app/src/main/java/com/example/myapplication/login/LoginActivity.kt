@@ -40,12 +40,19 @@ class LoginActivity : AppCompatActivity() {
         }
 
         viewModel.loginResult.observe(this) { success ->
-            if (success ) {
+            if (success) {
 
-                //todo: berikan aksi pindah ke main activity jika sudah login
+                val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putBoolean("isLoggedIn", true)
+                editor.apply()
 
+                val intent = Intent(this, MainActivity::class.java)
+                Toast.makeText(this, "Selamat Datang!", Toast.LENGTH_SHORT).show()
+                startActivity(intent)
+                finish()
             } else {
-                Toast.makeText(this,  getString(R.string.wrong_login), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.wrong_login), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -55,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.passwordEditText.text.toString()
 
         if (checkForm()) {
-            viewModel.signInWithEmailAndPassword(email, password)
+            viewModel.signInWithEmailAndPassword(email, password,this)
         }
     }
 
@@ -83,7 +90,7 @@ class LoginActivity : AppCompatActivity() {
                 binding.passwordEditTextLayout.error = getString(R.string.error_passrword)
                 isValid = false
             }
-            password.length < 8 -> {
+            password.length < 5 -> {
                 binding.passwordEditTextLayout.error = getString(R.string.password_leght)
                 isValid = false
             }
