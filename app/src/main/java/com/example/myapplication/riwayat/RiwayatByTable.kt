@@ -58,11 +58,15 @@ class RiwayatByTable : AppCompatActivity() {
 
                         val orderList = response.body()
                         orderList?.let { orders ->
-                            val allItemsList = orders.flatMap { order -> order.items }
+                            val allItemsList = orders.flatMap { order -> order.order_items }
+
+                            allItemsList.forEach { item ->
+                                Log.d("FotoDebug", "Item ID: ${item.id}, Foto: ${item.item.foto}")
+                            }
                             if (allItemsList.isNotEmpty()) {
 
                                 val riwayatAdapter = HistoryAdapter(allItemsList) { order ->
-                                    // Action click for item
+
                                 }
                                 binding.recyclerView.adapter = riwayatAdapter
                             } else {

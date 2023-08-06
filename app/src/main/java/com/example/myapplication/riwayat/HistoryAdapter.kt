@@ -3,14 +3,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplication.data.Items
+import com.example.myapplication.data.OrderItem
 import com.example.myapplication.databinding.ItemHistoryBinding
 import java.text.SimpleDateFormat
 
 
 class HistoryAdapter(
-    private val itemsList: List<Items?>,
-    private val onItemClick: (Items) -> Unit
+    private val itemsList: List<OrderItem?>,
+    private val onItemClick: (OrderItem) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -34,7 +36,7 @@ class HistoryAdapter(
 
     inner class ItemViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(item: Items) {
+        fun bind(item: OrderItem) {
             binding.apply {
                 binding.textMenuName.text = item.name
                 binding.textMenuAmount.text = "Jumlah: ${item.quantity_order}"
@@ -50,7 +52,16 @@ class HistoryAdapter(
                     e.printStackTrace()
                     Log.d("aab", "Error while parsing date: ${e.message}")
                     binding.tgl.text = item.created_at
+
+
                 }
+
+
+                Glide.with(itemView.context)
+                    .load(item.item.foto)
+                    .centerCrop()
+                    .into(binding.imageMenu)
+
             }
         }
     }

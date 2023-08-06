@@ -26,7 +26,7 @@ class QueueFragment : Fragment() {
     private val fetchRunnable = object : Runnable {
         override fun run() {
             queueViewModel.fetchTableData()
-            fetchHandler.postDelayed(this, 20000)
+            fetchHandler.postDelayed(this, 10000)
         }
     }
 

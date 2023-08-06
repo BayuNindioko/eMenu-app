@@ -28,7 +28,7 @@ class HistoryFragment : Fragment() {
     private val fetchRunnable = object : Runnable {
         override fun run() {
             historyViewModel.loadTableData()
-            fetchHandler.postDelayed(this, 20000)
+            fetchHandler.postDelayed(this, 10000)
         }
     }
 

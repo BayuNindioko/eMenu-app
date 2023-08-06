@@ -63,9 +63,10 @@ interface ApiService {
         @Field("name") name :String
     ): Call<CheckinResponse>
 
-    @GET("/api/tables/{table_id}/reservations/{id}")
+    @POST("/api/tables/reservations/{id}")
+    @FormUrlEncoded
     fun checkOut(
-        @Path("table_id") table_id: Int,
         @Path("id") id: Int,
+        @Field("table_id") table_id: Int,
     ): Call<DetailReservationResponse>
 }

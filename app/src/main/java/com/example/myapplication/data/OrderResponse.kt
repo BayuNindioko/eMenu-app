@@ -10,10 +10,10 @@ data class OrderResponse(
 	val status: String,
 	val created_at: String?,
 	val updated_at: String?,
-	val items: List<Items>,
+	val order_items: List<OrderItem>,
 	val table: Table
 )
-data class Items(
+data class OrderItem(
 	val id: Int,
 	val order_id: Int,
 	val item_id: Int,
@@ -24,7 +24,19 @@ data class Items(
 	val notes: String?,
 	val created_at: String?,
 	val updated_at: String?,
-	val laravel_through_key: Int
+	val laravel_through_key: Int,
+	val item: Items
+)
+
+data class Items(
+	val id: Int,
+	val name: String,
+	val deskripsi: String,
+	val foto: String?,
+	val price: Int,
+	val status: String,
+	val created_at: String?,
+	val updated_at: String?
 )
 
 data class Table(

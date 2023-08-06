@@ -95,7 +95,7 @@ class DetailReservasiActivity : AppCompatActivity() {
         }
 
         binding.checkout.setOnClickListener{
-            checkoutReservation(tableId, reservationId)
+            checkoutReservation(reservationId,tableId)
             recreate()
         }
 
@@ -154,11 +154,11 @@ class DetailReservasiActivity : AppCompatActivity() {
 
     }
 
-    private fun checkoutReservation(tableId: Int, reservationId: Int) {
+    private fun checkoutReservation(reservationId: Int,tableId: Int ) {
         val apiService = ApiConfig().getApiService()
 
 
-        apiService.checkOut(tableId, reservationId).enqueue(object : Callback<DetailReservationResponse> {
+        apiService.checkOut( reservationId,tableId).enqueue(object : Callback<DetailReservationResponse> {
             override fun onResponse(call: Call<DetailReservationResponse>, response: Response<DetailReservationResponse>) {
                 if (response.isSuccessful) {
                     val checkoutResponse = response.body()

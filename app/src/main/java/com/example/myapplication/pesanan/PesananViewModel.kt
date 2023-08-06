@@ -6,14 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.data.Items
+import com.example.myapplication.data.OrderItem
 import com.example.myapplication.data.OrderResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class PesananViewModel : ViewModel() {
-    private val _itemsLiveData: MutableLiveData<List<Items>> = MutableLiveData()
-    val itemsLiveData: LiveData<List<Items>> get() = _itemsLiveData
+    private val _itemsLiveData: MutableLiveData<List<OrderItem>> = MutableLiveData()
+    val itemsLiveData: LiveData<List<OrderItem>> get() = _itemsLiveData
 
     fun loadPesananData(number: String) {
         val apiService = ApiConfig().getApiService()
@@ -25,7 +26,7 @@ class PesananViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val orderResponse = response.body()
                     orderResponse?.let { order ->
-                        val itemsList = order.items
+                        val itemsList = order.order_items
                         _itemsLiveData.postValue(itemsList)
                     }
                 }

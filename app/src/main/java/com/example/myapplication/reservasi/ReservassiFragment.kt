@@ -23,7 +23,7 @@ class ReservassiFragment : Fragment() {
     private val fetchRunnable = object : Runnable {
         override fun run() {
             reservasiViewModel.loadTableData()
-            fetchHandler.postDelayed(this, 20000)
+                fetchHandler.postDelayed(this, 10000)
         }
     }
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.data.Items
+import com.example.myapplication.data.OrderItem
 import com.example.myapplication.data.OrderResponse
 import com.example.myapplication.data.UpdateResponse
 import com.example.myapplication.databinding.ActivityPesananBinding
@@ -77,7 +78,7 @@ class PesananActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showBottomSheetDialog(order: Items) {
+    private fun showBottomSheetDialog(order: OrderItem) {
 
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.note_dialogue, null)

@@ -2,13 +2,15 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.data.Items
+import com.example.myapplication.data.OrderItem
 import com.example.myapplication.databinding.ItemPesananBinding
 
 class PesananAdapter(
-    private var itemsList: List<Items?>,
-    private val onItemClick: (Items) -> Unit
+    private var itemsList: List<OrderItem?>,
+    private val onItemClick: (OrderItem) -> Unit
 ) : RecyclerView.Adapter<PesananAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -23,6 +25,8 @@ class PesananAdapter(
             holder.itemView.setOnClickListener {
                 onItemClick(item)
             }
+
+
         }
     }
 
@@ -31,14 +35,14 @@ class PesananAdapter(
     }
 
     // Method to update the items list
-    fun updateItems(newItemsList: List<Items?>) {
+    fun updateItems(newItemsList: List<OrderItem?>) {
         itemsList = newItemsList
         notifyDataSetChanged()
     }
 
     inner class ItemViewHolder(private val binding: ItemPesananBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(item: Items) {
+        fun bind(item: OrderItem) {
             binding.apply {
                 binding.textMenuName.text = item.name
                 binding.textMenuAmount.text = "Jumlah: ${item.quantity_order}"
@@ -51,7 +55,15 @@ class PesananAdapter(
                     // Otherwise, set the status order image to the default image
                     binding.status.setImageResource(R.drawable.baseline_access_time_24)
                 }
+
+
+                Glide.with(itemView.context)
+                    .load(item.item.foto)
+                    .centerCrop()
+                    .into(binding.imageMenu)
+
             }
+
         }
     }
 }
