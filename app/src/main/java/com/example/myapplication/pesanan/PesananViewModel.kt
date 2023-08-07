@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.api.ApiConfig
-import com.example.myapplication.data.Items
 import com.example.myapplication.data.OrderItem
 import com.example.myapplication.data.OrderResponse
 import retrofit2.Call
@@ -16,7 +15,7 @@ class PesananViewModel : ViewModel() {
     private val _itemsLiveData: MutableLiveData<List<OrderItem>> = MutableLiveData()
     val itemsLiveData: LiveData<List<OrderItem>> get() = _itemsLiveData
 
-    fun loadPesananData(number: String) {
+    fun loadDataByTable(number: String, onResponse: (List<OrderItem>?) -> Unit) {
         val apiService = ApiConfig().getApiService()
         apiService.getOrderByTable(number).enqueue(object : Callback<OrderResponse> {
             override fun onResponse(
@@ -28,12 +27,14 @@ class PesananViewModel : ViewModel() {
                     orderResponse?.let { order ->
                         val itemsList = order.order_items
                         _itemsLiveData.postValue(itemsList)
+                        onResponse(itemsList)
+
                     }
                 }
             }
 
             override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
-                Log.e("bayu", "Error: ${t.message}", t)
+                Log.e("PesananViewModel", "Error: ${t.message}", t)
             }
         })
     }

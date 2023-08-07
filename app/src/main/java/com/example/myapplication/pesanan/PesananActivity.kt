@@ -1,6 +1,13 @@
 package com.example.myapplication.pesanan
 
 import PesananAdapter
+import android.Manifest
+import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothClass
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothSocket
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +17,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.api.ApiConfig
-import com.example.myapplication.data.Items
+
 import com.example.myapplication.data.OrderItem
 import com.example.myapplication.data.OrderResponse
 import com.example.myapplication.data.UpdateResponse
@@ -24,11 +32,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
+import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 class PesananActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPesananBinding
     private lateinit var pesananAdapter: PesananAdapter
     private lateinit var pesananViewModel: PesananViewModel
+
+    private lateinit var bluetoothAdapter: BluetoothAdapter
+    private lateinit var mmSocket: BluetoothSocket
+    private lateinit var mmOutputStream: OutputStream
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,11 +84,25 @@ class PesananActivity : AppCompatActivity() {
         binding.recyclerView.adapter = pesananAdapter
 
         number?.let {
-            pesananViewModel.loadPesananData(it)
+            pesananViewModel.loadDataByTable(it) { items ->
+                if (items.isNullOrEmpty()) {
+                    binding.recyclerView.visibility = View.GONE
+                    binding.tvEmptyMessage.visibility = View.VISIBLE
+                } else {
+                    binding.recyclerView.visibility = View.VISIBLE
+                    binding.tvEmptyMessage.visibility = View.GONE
+                    pesananAdapter.updateItems(items)
+                }
+            }
+        }
+
+      binding.button.setOnClickListener {
+            if (checkBluetoothPermissions()) {
+                requestBluetoothConnectPermission()
+            }
         }
 
     }
-
 
 
     override fun onSupportNavigateUp(): Boolean {
@@ -170,5 +202,126 @@ class PesananActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
+    }
+
+
+
+    // PRINTTT// PRINTTT// PRINTTT// PRINTTT// PRINTTT// PRINTTT// PRINTTT// PRINTTT// PRINTTT// PRINTTT// PRINTTT// PRINTTT
+
+    private fun requestBluetoothConnectPermission() {
+        val permission = Manifest.permission.BLUETOOTH_CONNECT
+        val requestCode = 1
+        ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                doPrint(binding.root)
+            } else {
+                Toast.makeText(this, "Izin Bluetooth tidak diberikan. Aplikasi memerlukan izin Bluetooth untuk mencetak.", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+    }
+
+    private fun checkBluetoothPermissions(): Boolean {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        if (bluetoothAdapter == null) {
+
+            return false
+        }
+
+        if (!bluetoothAdapter.isEnabled) {
+
+            return false
+        }
+
+        return true
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun findPrinterDevice(): BluetoothDevice? {
+        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
+        if (pairedDevices != null) {
+            for (device: BluetoothDevice in pairedDevices) {
+
+                if (device.bluetoothClass.majorDeviceClass == BluetoothClass.Device.Major.IMAGING) {
+                    return device
+                }
+            }
+        }
+        return null
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun connectToPrinter(): Boolean {
+        val printerDevice = findPrinterDevice()
+        if (printerDevice != null) {
+            val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+            mmSocket = printerDevice.createRfcommSocketToServiceRecord(uuid)
+            try {
+                mmSocket.connect()
+                mmOutputStream = mmSocket.outputStream
+                return true
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return false
+    }
+
+    private fun disconnectPrinter() {
+        try {
+            mmOutputStream.close()
+            mmSocket.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun doPrint(view: View) {
+        if (checkBluetoothPermissions()) {
+            try {
+                if (connectToPrinter()) {
+                    val billData = StringBuilder()
+
+                    billData.append("================================\n")
+                    billData.append("        JEBE Cafe & Resto       \n")
+                    billData.append("================================\n")
+                    billData.append("Tanggal: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())}\n")
+                    billData.append("Waktu: ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())}\n")
+                    billData.append("================================\n")
+                    billData.append("Item            Jumlah    Status\n")
+                    billData.append("================================\n")
+                    billData.append("Burger            x1        [ ] \n")
+                    billData.append("Ayam Bakar        x2        [ ] \n")
+                    billData.append("Ice Cream         x1        [ ] \n")
+                    billData.append("Es teh Manis      x1        [ ] \n")
+                    billData.append("================================\n")
+                    billData.append("     SELAMAT DATANG KEMBALI     \n")
+                    billData.append("================================\n")
+                    billData.append("\n")
+                    billData.append("\n")
+
+                    try {
+                        mmOutputStream.write(billData.toString().toByteArray())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    } finally {
+                        disconnectPrinter()
+                    }
+                }
+            } catch (securityException: SecurityException) {
+                securityException.printStackTrace()
+            }
+        } else {
+            Toast.makeText(
+                this,
+                "Izin Bluetooth tidak diberikan. Aplikasi memerlukan izin Bluetooth untuk mencetak.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }

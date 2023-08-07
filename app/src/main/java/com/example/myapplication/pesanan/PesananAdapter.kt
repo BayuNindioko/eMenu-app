@@ -1,4 +1,5 @@
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -49,18 +50,22 @@ class PesananAdapter(
                 binding.textStatus.text = "Orderan ke - ${item.order_id}"
 
                 if (item.quantity_order <= item.quantity_delivered) {
-                    // If they are equal, set the status order image to the logo
                     binding.status.setImageResource(R.drawable.baseline_check_circle_24)
                 } else {
-                    // Otherwise, set the status order image to the default image
                     binding.status.setImageResource(R.drawable.baseline_access_time_24)
                 }
 
 
-                Glide.with(itemView.context)
-                    .load(item.item.foto)
-                    .centerCrop()
-                    .into(binding.imageMenu)
+                if (item.item != null) {
+                    Log.d("ImageDebug", "Image URL: ${item.item.foto}")
+                    Glide.with(itemView.context)
+                        .load(item.item.foto)
+                        .centerCrop()
+                        .into(binding.imageMenu)
+
+                }
+
+
 
             }
 
