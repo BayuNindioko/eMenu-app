@@ -33,6 +33,7 @@ data class Items(
 	val name: String,
 	val deskripsi: String,
 	val foto: String?,
+	val number: String,
 	val price: Int,
 	val status: String,
 	val created_at: String?,

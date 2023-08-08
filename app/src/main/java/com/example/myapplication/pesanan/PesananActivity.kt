@@ -48,6 +48,9 @@ class PesananActivity : AppCompatActivity() {
     private lateinit var mmSocket: BluetoothSocket
     private lateinit var mmOutputStream: OutputStream
 
+    private var latestOrderItems: List<OrderItem>? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPesananBinding.inflate(layoutInflater)
@@ -78,6 +81,8 @@ class PesananActivity : AppCompatActivity() {
                 binding.tvEmptyMessage.visibility = View.GONE
                 pesananAdapter.updateItems(items)
             }
+
+            latestOrderItems = items
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -100,6 +105,8 @@ class PesananActivity : AppCompatActivity() {
             if (checkBluetoothPermissions()) {
                 requestBluetoothConnectPermission()
             }
+
+
         }
 
     }
@@ -218,7 +225,11 @@ class PesananActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                doPrint(binding.root)
+                latestOrderItems?.let { orderItems ->
+                    doPrint(binding.root, orderItems)
+                } ?: run {
+                    Toast.makeText(this, "Data pesanan tidak ditemukan.", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(this, "Izin Bluetooth tidak diberikan. Aplikasi memerlukan izin Bluetooth untuk mencetak.", Toast.LENGTH_SHORT).show()
 
@@ -281,7 +292,7 @@ class PesananActivity : AppCompatActivity() {
         }
     }
 
-    fun doPrint(view: View) {
+    fun doPrint(view: View,orderItems: List<OrderItem>) {
         if (checkBluetoothPermissions()) {
             try {
                 if (connectToPrinter()) {
@@ -291,14 +302,19 @@ class PesananActivity : AppCompatActivity() {
                     billData.append("        JEBE Cafe & Resto       \n")
                     billData.append("================================\n")
                     billData.append("Tanggal: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())}\n")
-                    billData.append("Waktu: ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())}\n")
+                    billData.append("Waktu  : ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())}\n")
                     billData.append("================================\n")
-                    billData.append("Item            Jumlah    Status\n")
+                    billData.append("Item             Jumlah   Status\n")
                     billData.append("================================\n")
-                    billData.append("Burger            x1        [ ] \n")
-                    billData.append("Ayam Bakar        x2        [ ] \n")
-                    billData.append("Ice Cream         x1        [ ] \n")
-                    billData.append("Es teh Manis      x1        [ ] \n")
+                    for (orderItem in orderItems) {
+
+                        val itemName = orderItem.name.padEnd(20)
+                        val itemQuantity = orderItem.quantity_order.toString().padEnd(8)
+                        val itemStatus =  "${orderItem.quantity_delivered}/${orderItem.quantity_order}"
+
+                        billData.append("$itemName$itemQuantity$itemStatus\n")
+                        billData.append("${orderItem.notes}\n")
+                    }
                     billData.append("================================\n")
                     billData.append("     SELAMAT DATANG KEMBALI     \n")
                     billData.append("================================\n")

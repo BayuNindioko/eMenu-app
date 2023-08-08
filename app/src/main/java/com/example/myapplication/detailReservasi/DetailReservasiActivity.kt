@@ -1,15 +1,26 @@
 package com.example.myapplication.detailReservasi
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothClass
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothSocket
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.example.myapplication.R
 import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.data.CheckinResponse
 import com.example.myapplication.data.DetailReservationResponse
+import com.example.myapplication.data.OrderItem
+import com.example.myapplication.data.OrderResponse
 import com.example.myapplication.databinding.ActivityDetailReservasiBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -18,15 +29,24 @@ import com.google.android.material.textfield.TextInputLayout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
+import java.io.OutputStream
 import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 class DetailReservasiActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailReservasiBinding
+    private lateinit var bluetoothAdapter: BluetoothAdapter
+    private lateinit var mmSocket: BluetoothSocket
+    private lateinit var mmOutputStream: OutputStream
 
     private var tableId: Int = 0
     private var reservationId: Int = 0
 
+    private var latestOrderItemsz: List<OrderItem>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailReservasiBinding.inflate(layoutInflater)
@@ -74,7 +94,7 @@ class DetailReservasiActivity : AppCompatActivity() {
                                 }
                                 tableId = it.table_id
                                 reservationId = it.id
-
+                                loaddata(reservationId)
                             }
                         }
                     }
@@ -97,6 +117,13 @@ class DetailReservasiActivity : AppCompatActivity() {
         binding.checkout.setOnClickListener{
             checkoutReservation(reservationId,tableId)
             recreate()
+        }
+
+
+        binding.fab.setOnClickListener{
+
+            requestBluetoothConnectPermission()
+
         }
 
     }
@@ -157,7 +184,6 @@ class DetailReservasiActivity : AppCompatActivity() {
     private fun checkoutReservation(reservationId: Int,tableId: Int ) {
         val apiService = ApiConfig().getApiService()
 
-
         apiService.checkOut( reservationId,tableId).enqueue(object : Callback<DetailReservationResponse> {
             override fun onResponse(call: Call<DetailReservationResponse>, response: Response<DetailReservationResponse>) {
                 if (response.isSuccessful) {
@@ -194,5 +220,184 @@ class DetailReservasiActivity : AppCompatActivity() {
         finish()
     }
 
+// PRINTTTTTTTTTTTTTTTT // PRINTTTTTTTTTTTTTTTT // PRINTTTTTTTTTTTTTTTT // PRINTTTTTTTTTTTTTTTT // PRINTTTTTTTTTTTTTTTT // PRINTTTTTTTTTTTTTTTT
 
+    private fun loaddata(id:Int) {
+        val apiService = ApiConfig().getApiService()
+
+        Log.d("bayyuu", "ID: $id")
+        id.let {
+            apiService.getOrderByTable(id.toString()).enqueue(object :
+                Callback<OrderResponse> {
+                override fun onResponse(
+                    call: Call<OrderResponse>,
+                    response: Response<OrderResponse>
+                ) {
+                    Log.d("bayubayu", "onResponse is called")
+                    if (response.isSuccessful) {
+                        val detailReservation = response.body()
+                        Log.d("bayubayu", "onResponse is success")
+                        detailReservation?.let { it ->
+                            latestOrderItemsz = it.order_items
+                            Log.d("dapet", "Latest Order Items: $latestOrderItemsz")
+
+                        }
+                    } else {
+                        // Handle API response error here
+                        Toast.makeText(
+                            this@DetailReservasiActivity,
+                            "Failed to retrieve order items.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
+                    // Handle API call failure here
+                    Toast.makeText(
+                        this@DetailReservasiActivity,
+                        "Failed to retrieve order items.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        }
+    }
+
+    private fun requestBluetoothConnectPermission() {
+        val permission = Manifest.permission.BLUETOOTH_CONNECT
+        val requestCode = 1
+
+
+        ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                latestOrderItemsz?.let { orderItems ->
+                    Log.d("bayu mamam", "Order Items: $orderItems")
+                    doPrint(binding.root, orderItems)
+                } ?: run {
+                    Toast.makeText(this, "Data pesanan tidak ditemukann.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(
+                    this,
+                    "Izin Bluetooth tidak diberikan. Aplikasi memerlukan izin Bluetooth untuk mencetak.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun checkBluetoothPermissions(): Boolean {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        if (bluetoothAdapter == null) {
+
+            return false
+        }
+
+        if (!bluetoothAdapter.isEnabled) {
+
+            return false
+        }
+
+        return true
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun findPrinterDevice(): BluetoothDevice? {
+        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
+        if (pairedDevices != null) {
+            for (device: BluetoothDevice in pairedDevices) {
+
+                if (device.bluetoothClass.majorDeviceClass == BluetoothClass.Device.Major.IMAGING) {
+                    return device
+                }
+            }
+        }
+        return null
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun connectToPrinter(): Boolean {
+        val printerDevice = findPrinterDevice()
+        if (printerDevice != null) {
+            val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+            mmSocket = printerDevice.createRfcommSocketToServiceRecord(uuid)
+            try {
+                mmSocket.connect()
+                mmOutputStream = mmSocket.outputStream
+                return true
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return false
+    }
+
+    private fun disconnectPrinter() {
+        try {
+            mmOutputStream.close()
+            mmSocket.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun doPrint(view: View, orderItems: List<OrderItem>) {
+        Log.d("keren", "doPrint - latestOrderItemsz: $latestOrderItemsz")
+        if (checkBluetoothPermissions()) {
+            try {
+                if (connectToPrinter()) {
+                    val billData = StringBuilder()
+
+                    billData.append("================================\n")
+                    billData.append("        JEBE Cafe & Resto       \n")
+                    billData.append("================================\n")
+                    billData.append("Tanggal: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+                        Date()
+                    )}\n")
+                    billData.append("Waktu  : ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(
+                        Date()
+                    )}\n")
+                    billData.append("================================\n")
+                    billData.append("Item          Jumlah      Harga\n")
+                    billData.append("================================\n")
+                    for (orderItem in orderItems) {
+
+                        val itemName = orderItem.name.padEnd(16)
+                        val itemQuantity = orderItem.quantity_order.toString().padEnd(7)
+                        val itemPrice = "Rp.${orderItem.price*orderItem.quantity_order}"
+
+                        billData.append("$itemName$itemQuantity$itemPrice\n")
+
+                    }
+                    billData.append("================================\n")
+                    billData.append("     SELAMAT DATANG KEMBALI     \n")
+                    billData.append("================================\n")
+                    billData.append("\n")
+                    billData.append("\n")
+
+                    try {
+                        mmOutputStream.write(billData.toString().toByteArray())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    } finally {
+                        disconnectPrinter()
+                    }
+                }
+            } catch (securityException: SecurityException) {
+                securityException.printStackTrace()
+            }
+        } else {
+            Toast.makeText(
+                this,
+                "Izin Bluetooth tidak diberikan. Aplikasi memerlukan izin Bluetooth untuk mencetak.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 }
