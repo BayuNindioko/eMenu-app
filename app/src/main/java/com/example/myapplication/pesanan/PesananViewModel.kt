@@ -29,6 +29,10 @@ class PesananViewModel : ViewModel() {
                         _itemsLiveData.postValue(itemsList)
                         onResponse(itemsList)
 
+                        itemsList.forEach { item ->
+                            Log.d("FotoDebugsss", "Item ID: ${item.id}, Foto: ${item.item?.foto}")
+                        }
+
                     }
                 }
             }

@@ -27,7 +27,6 @@ class PesananAdapter(
                 onItemClick(item)
             }
 
-
         }
     }
 
@@ -55,16 +54,12 @@ class PesananAdapter(
                     binding.status.setImageResource(R.drawable.baseline_access_time_24)
                 }
 
+                Log.d("FotoDebugaa", "Item ID: ${item.id}, Foto: ${item.item?.foto}")
 
-                if (item.item != null) {
-                    Log.d("ImageDebug", "Image URL: ${item.item.foto}")
-                    Glide.with(itemView.context)
-                        .load(item.item.foto)
-                        .centerCrop()
-                        .into(binding.imageMenu)
-
-                }
-
+                Glide.with(itemView.context)
+                    .load(item.item?.foto)
+                    .centerCrop()
+                    .into(binding.imageMenu)
 
 
             }
