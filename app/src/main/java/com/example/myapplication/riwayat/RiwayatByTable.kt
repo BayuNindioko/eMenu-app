@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +35,8 @@ class RiwayatByTable : AppCompatActivity() {
             setTitle(R.string.riwayat)
         }
 
+        binding.progressBar3.visibility = View.VISIBLE
+        binding.recyclerView.visibility = View.GONE
         riwayatAdapter = HistoryAdapter(emptyList()){ order ->
 
         }
@@ -55,7 +58,8 @@ class RiwayatByTable : AppCompatActivity() {
                     response: Response<List<OrderResponse>>
                 ) {
                     if (response.isSuccessful) {
-
+                        binding.progressBar3.visibility = View.GONE
+                        binding.recyclerView.visibility = View.VISIBLE
                         val orderList = response.body()
                         orderList?.let { orders ->
                             val allItemsList = orders.flatMap { order -> order.order_items }
@@ -74,11 +78,13 @@ class RiwayatByTable : AppCompatActivity() {
                             }
                         }
                     } else {
+                        binding.progressBar3.visibility = View.GONE
                         Toast.makeText(this@RiwayatByTable, "Failed to get data", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<List<OrderResponse>>, t: Throwable) {
+                    binding.progressBar3.visibility = View.GONE
                     Toast.makeText(this@RiwayatByTable, "Failed to get data", Toast.LENGTH_SHORT).show()
                 }
             })

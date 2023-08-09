@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.pm.PackageManager
+import android.os.Build.VERSION_CODES.S
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -31,6 +32,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 import java.io.OutputStream
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -61,6 +63,7 @@ class DetailReservasiActivity : AppCompatActivity() {
         val number_table = intent.getStringExtra("NUMBER_TABLE")
         binding.noMeja.text = "Meja $number_table"
 
+        binding.progressBar2.visibility = View.VISIBLE
 
         val apiService = ApiConfig().getApiService()
         if (id != null) {
@@ -69,6 +72,7 @@ class DetailReservasiActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<DetailReservationResponse>, response: Response<DetailReservationResponse>) {
                     if (response.isSuccessful) {
                         val detailReservation = response.body()
+                        binding.progressBar2.visibility = View.GONE
 
                         detailReservation?.let {
                             if (it.status == "Finish") {
@@ -101,10 +105,14 @@ class DetailReservasiActivity : AppCompatActivity() {
 
                     else{
                         Log.d("bayu", "$response.code")
+                        Toast.makeText(this@DetailReservasiActivity, "Gagal memuat data. Silakan coba lagi.", Toast.LENGTH_SHORT).show()
+
                     }
                 }
 
                 override fun onFailure(call: Call<DetailReservationResponse>, t: Throwable) {
+                    binding.progressBar2.visibility = View.GONE
+                    Toast.makeText(this@DetailReservasiActivity, "Gagal memuat data. Silakan coba lagi.", Toast.LENGTH_SHORT).show()
                     Log.d("bayu", "${t.message}")
                 }
             })
@@ -191,7 +199,6 @@ class DetailReservasiActivity : AppCompatActivity() {
                     binding.status.text = "Status : ${checkoutResponse?.status}"
                     binding.waktuCheckin.text = "Waktu : -"
                     binding.pin.text = "-"
-                    binding
                     Toast.makeText(this@DetailReservasiActivity,"Meja ${checkoutResponse!!.table_id} berhasil checkout", Toast.LENGTH_SHORT).show()
                 } else {
                     Log.d("bayo", "Checkout failed: ${response.code()}")
@@ -348,8 +355,14 @@ class DetailReservasiActivity : AppCompatActivity() {
     }
 
     fun doPrint(view: View, orderItems: List<OrderItem>) {
+        val no_table = intent.getStringExtra("NUMBER_TABLE")
         Log.d("keren", "doPrint - latestOrderItemsz: $latestOrderItemsz")
+        Log.d("keren", "nomer meja: $no_table")
+
+        var total = 0.00
+
         if (checkBluetoothPermissions()) {
+            val currencyFormat: NumberFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
             try {
                 if (connectToPrinter()) {
                     val billData = StringBuilder()
@@ -357,24 +370,32 @@ class DetailReservasiActivity : AppCompatActivity() {
                     billData.append("================================\n")
                     billData.append("        JEBE Cafe & Resto       \n")
                     billData.append("================================\n")
-                    billData.append("Tanggal: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
-                        Date()
-                    )}\n")
-                    billData.append("Waktu  : ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(
-                        Date()
-                    )}\n")
+                    billData.append("No Meja: $no_table\n")
+                    billData.append("Tanggal: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())}\n")
+                    billData.append("Waktu  : ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())}\n")
                     billData.append("================================\n")
-                    billData.append("Item          Jumlah      Harga\n")
+                    billData.append("Item          Jumlah     Harga  \n")
                     billData.append("================================\n")
                     for (orderItem in orderItems) {
 
                         val itemName = orderItem.name.padEnd(16)
-                        val itemQuantity = orderItem.quantity_order.toString().padEnd(7)
-                        val itemPrice = "Rp.${orderItem.price*orderItem.quantity_order}"
+                        val itemQuantity = orderItem.quantity_order.toString().padEnd(9)
+                        val itemPrice = orderItem.price*orderItem.quantity_order
+
+                        total += itemPrice
 
                         billData.append("$itemName$itemQuantity$itemPrice\n")
 
                     }
+
+                    val formattedTotal = currencyFormat.format(total)
+                    val pajak = currencyFormat.format(total*0.11)
+                    val pajaktotal = currencyFormat.format(total +total*0.11)
+
+                    billData.append("================================\n")
+                    billData.append("Sub total : $formattedTotal\n")
+                    billData.append("PPN 11%   : $pajak\n")
+                    billData.append("Total     : $pajaktotal\n")
                     billData.append("================================\n")
                     billData.append("     SELAMAT DATANG KEMBALI     \n")
                     billData.append("================================\n")

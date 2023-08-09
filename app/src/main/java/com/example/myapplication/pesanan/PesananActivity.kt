@@ -293,6 +293,7 @@ class PesananActivity : AppCompatActivity() {
     }
 
     fun doPrint(view: View,orderItems: List<OrderItem>) {
+        val number_table = intent.getStringExtra("ID_TABLE")
         if (checkBluetoothPermissions()) {
             try {
                 if (connectToPrinter()) {
@@ -301,6 +302,7 @@ class PesananActivity : AppCompatActivity() {
                     billData.append("================================\n")
                     billData.append("        JEBE Cafe & Resto       \n")
                     billData.append("================================\n")
+                    billData.append("Tanggal: $number_table\n")
                     billData.append("Tanggal: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())}\n")
                     billData.append("Waktu  : ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())}\n")
                     billData.append("================================\n")
@@ -309,11 +311,17 @@ class PesananActivity : AppCompatActivity() {
                     for (orderItem in orderItems) {
 
                         val itemName = orderItem.name.padEnd(20)
-                        val itemQuantity = orderItem.quantity_order.toString().padEnd(8)
+                        val itemQuantity = orderItem.quantity_order.toString().padEnd(7)
                         val itemStatus =  "${orderItem.quantity_delivered}/${orderItem.quantity_order}"
 
                         billData.append("$itemName$itemQuantity$itemStatus\n")
-                        billData.append("${orderItem.notes}\n")
+
+                        if (orderItem.notes != null) {
+                            billData.append("note : ${orderItem.notes}\n")
+                        } else {
+                            billData.append("note : -\n")
+                        }
+                        billData.append("\n")
                     }
                     billData.append("================================\n")
                     billData.append("     SELAMAT DATANG KEMBALI     \n")

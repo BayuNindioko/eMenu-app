@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+        Log.d("logindebug","$isLoggedIn")
 
         if (!isLoggedIn) {
             val intent = Intent(this, LoginActivity::class.java)
@@ -71,26 +72,25 @@ class MainActivity : AppCompatActivity() {
                     ApiConfig().getApiService().logout("Bearer $token").enqueue(object : Callback<LogoutResponse> {
                         override fun onResponse(call: Call<LogoutResponse>, response: Response<LogoutResponse>) {
                             if (response.isSuccessful) {
+                                Toast.makeText(this@MainActivity, "Logout Successfully!", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                                finish()
 
                                 val editor = sharedPreferences.edit()
                                 editor.clear()
+                                editor.putBoolean("isLoggedIn", false)
                                 editor.apply()
 
-                                Toast.makeText(this@MainActivity, "Logout Successfully!", Toast.LENGTH_SHORT).show()
-                                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-                                finish()
+
                             } else {
-                                Toast.makeText(this@MainActivity, "Logout Successfully!", Toast.LENGTH_SHORT).show()
-                                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-                                finish()
-                                Log.d("bayo", "${response.code()}")
+                                Log.d("bayyo", "${response.code()}")
                                 Toast.makeText(this@MainActivity, "Failed to logout. Please try again.", Toast.LENGTH_SHORT).show()
                             }
                         }
 
                         override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
                             Log.e("bayo", "Logout onFailure: ${t.message}")
-                            Toast.makeText(this@MainActivity, "Failed to logout. Please try again.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MainActivity, "Failed to logout. Please try again..", Toast.LENGTH_SHORT).show()
                         }
                     })
                 }

@@ -36,9 +36,10 @@ class LoginViewModel : ViewModel() {
                     if (loginResponse?.status == "success" && loginResponse.data != null) {
                         val token = loginResponse.data.access_token
                         Log.d("tokenn", "Token: $token")
+                        _loginResult.value = true
                         saveTokenToSharedPreferences(token, context)
 
-                        _loginResult.value = true
+
                     } else {
                         _loginResult.value = false
                     }
@@ -62,6 +63,8 @@ class LoginViewModel : ViewModel() {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putString("TOKEN", token)
+
+
         Log.d("bayo", "Token: $token")
         editor.apply()
     }
