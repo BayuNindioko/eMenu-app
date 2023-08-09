@@ -7,7 +7,6 @@ import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.pm.PackageManager
-import android.os.Build.VERSION_CODES.S
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log

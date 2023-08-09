@@ -16,7 +16,6 @@ import com.example.myapplication.setting.SettingActivity
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.login.LoginActivity
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

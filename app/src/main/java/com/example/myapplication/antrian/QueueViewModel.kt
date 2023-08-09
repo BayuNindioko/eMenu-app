@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.data.TableReservationResponse
-import com.example.myapplication.data.TableResponseItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

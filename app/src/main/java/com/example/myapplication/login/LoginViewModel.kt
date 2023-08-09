@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.data.LoginResponse
-import com.google.firebase.auth.FirebaseAuth
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

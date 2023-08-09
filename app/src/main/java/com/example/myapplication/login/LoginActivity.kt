@@ -12,7 +12,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.main.MainActivity
 import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
+
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

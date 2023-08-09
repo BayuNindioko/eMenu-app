@@ -1,6 +1,6 @@
 package com.example.myapplication.antrian
 
-import android.annotation.SuppressLint
+
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.TableReservationResponse
-import com.example.myapplication.data.TableResponseItem
+
 import com.example.myapplication.pesanan.PesananActivity
 
 class TableAdapter(private var tableList: List<TableReservationResponse?>) :

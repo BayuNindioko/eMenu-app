@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.TableResponseItem
-import com.example.myapplication.pesanan.PesananActivity
 
 class TableHistoryAdapter(private var tableList: List<TableResponseItem?>) :
     RecyclerView.Adapter<TableHistoryAdapter.TableViewHolder>() {
