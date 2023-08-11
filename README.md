@@ -1,4 +1,4 @@
-# eMenu-app
+# eMenu-app (BARD ORDER)
 
 BARD adalah sebuah aplikasi khusus yang diciptakan untuk secara efisien mengelola dan mengawasi pesanan. 
 Pesanan-pesanan ini berasal langsung dari sebuah website pemesanan yang terhubung, difasilitasi melalui API terintegrasi. 
