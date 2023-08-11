@@ -367,18 +367,23 @@ class DetailReservasiActivity : AppCompatActivity() {
                     val billData = StringBuilder()
 
                     billData.append("================================\n")
-                    billData.append("        JEBE Cafe & Resto       \n")
+                    billData.append("        JeBe Cafe & Resto       \n")
                     billData.append("================================\n")
                     billData.append("No Meja: $no_table\n")
                     billData.append("Tanggal: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())}\n")
                     billData.append("Waktu  : ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())}\n")
                     billData.append("================================\n")
-                    billData.append("Item          Jumlah     Harga  \n")
+                    billData.append("Item              Jumlah   Harga\n")
                     billData.append("================================\n")
                     for (orderItem in orderItems) {
 
-                        val itemName = orderItem.name.padEnd(16)
-                        val itemQuantity = orderItem.quantity_order.toString().padEnd(9)
+                        val maxItemNameLength = 18
+                        val itemName = if (orderItem.name.length > maxItemNameLength) {
+                            "${orderItem.name.substring(0, maxItemNameLength - 3)}..."
+                        } else {
+                            orderItem.name.padEnd(maxItemNameLength)
+                        }
+                        val itemQuantity = orderItem.quantity_order.toString().padEnd(5).padStart(8)
                         val itemPrice = orderItem.price*orderItem.quantity_order
 
                         total += itemPrice

@@ -300,19 +300,23 @@ class PesananActivity : AppCompatActivity() {
                     val billData = StringBuilder()
 
                     billData.append("================================\n")
-                    billData.append("        JEBE Cafe & Resto       \n")
+                    billData.append("        JeBe Cafe & Resto       \n")
                     billData.append("================================\n")
-                    billData.append("Tanggal: $number_table\n")
+                    billData.append("No Meja: $number_table\n")
                     billData.append("Tanggal: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())}\n")
                     billData.append("Waktu  : ${SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())}\n")
                     billData.append("================================\n")
-                    billData.append("Item             Jumlah   Status\n")
+                    billData.append("Item               Jumlah Status\n")
                     billData.append("================================\n")
                     for (orderItem in orderItems) {
-
-                        val itemName = orderItem.name.padEnd(20)
-                        val itemQuantity = orderItem.quantity_order.toString().padEnd(7)
-                        val itemStatus =  "${orderItem.quantity_delivered}/${orderItem.quantity_order}"
+                        val maxItemNameLength = 18
+                        val itemName = if (orderItem.name.length > maxItemNameLength) {
+                            "${orderItem.name.substring(0, maxItemNameLength - 3)}..."
+                        } else {
+                            orderItem.name.padEnd(maxItemNameLength)
+                        }
+                        val itemQuantity = orderItem.quantity_order.toString().padEnd(6).padStart(10)
+                        val itemStatus = "${orderItem.quantity_delivered}/${orderItem.quantity_order}"
 
                         billData.append("$itemName$itemQuantity$itemStatus\n")
 
